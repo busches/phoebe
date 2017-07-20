@@ -29,5 +29,8 @@ class PetQuoteCartRequest {
     // pattern: "[0-9\\-]*"
     String leadPhone
 
+    @NotNull
+    String apiKey
+
     List<PetQuoteRequest> quotes
 }

@@ -23,9 +23,6 @@ class PetQuoteRequestData {
     @NotNull
     ProductCode productCode
 
-    @NotNull
-    String apiKey
-
     Gender gender
 
     String petColorId
