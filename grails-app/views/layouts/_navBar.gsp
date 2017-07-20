@@ -5,7 +5,7 @@
                 <div class="col-xs-12">
                     <div class="navbar-header">
                         <div class="navbar-header-info">
-                            <a href="./index" class="brand">${title ?: 'Phoebe Administration'}</a>
+                            <a href="./index" class="brand">${title ?: 'Phoebe'}</a>
                         </div>
                     </div>
 
