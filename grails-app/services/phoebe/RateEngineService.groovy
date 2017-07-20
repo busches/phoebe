@@ -8,14 +8,22 @@ import petquote.PetSpecies
 class RateEngineService {
 
     def ratePet(PetQuoteRequestData petData) {
-        def baseRate = 713.24
+        def baseRate = 873
         def deductibleFactor = 1
         def coInsuranceFactor = 1
-        def speciesFactor = 1
+        def speciesFactor = determineSpeciesFactor(petData.petSpecies)
         def ageFactor = determineAgeFactor(petData.age, petData.petSpecies)
         def breedFactor = 1
 
         return baseRate * deductibleFactor * coInsuranceFactor * speciesFactor * ageFactor * breedFactor
+    }
+
+    def determineSpeciesFactor(PetSpecies petSpecies) {
+        def speciesFactor = [
+                Cat: 0.60,
+                Dog: 1.00
+        ]
+        speciesFactor[petSpecies as String]
     }
 
     def determineAgeFactor(int age, PetSpecies petSpecies) {
