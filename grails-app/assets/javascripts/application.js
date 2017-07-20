@@ -5,8 +5,22 @@
 // You're free to add application-wide JavaScript to this file, but it's generally better
 // to create separate JavaScript files as needed.
 //
-//= require jquery-2.2.0.min
-//= require bootstrap
+//= require js/jquery
+//= require js/jquery.validate
+//= require js/additional-methods
+//= require js/bootstrap-3.3.5
+//= require js/bootstrap-custom
+//= require js/bootstrap-tabcollapse-custom
+//= require bootstrap-toggle
+//= require js/enquire
+//= require js/footable
+//= require js/footable.striping
+//= require js/jquery-spin
+//= require js/bootstrap-multiselect
+//= require js/jquery-mask
+//= require js/jquery.tablesorter
+//= require js/moment
+//= require js/bootstrap-datetimepicker
 //= require_tree .
 //= require_self
 
