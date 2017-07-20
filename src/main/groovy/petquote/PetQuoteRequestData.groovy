@@ -17,7 +17,7 @@ class PetQuoteRequestData {
     String petBreedId
 
     @NotNull
-    //description: YYYY - MM - DD
+    //description: YYYY-MM-DD
     Date petDateOfBirth
 
     @NotNull
@@ -29,4 +29,17 @@ class PetQuoteRequestData {
     Gender gender
 
     String petColorId
+
+    def getAge() {
+        Calendar today = Calendar.getInstance(Locale.US)
+        Calendar petDate = Calendar.getInstance(Locale.US)
+        petDate.setTime(petDateOfBirth)
+        int diff = today.get(Calendar.YEAR) - petDate.get(Calendar.YEAR);
+        if (petDate.get(Calendar.MONTH) > today.get(Calendar.MONTH) ||
+                (petDate.get(Calendar.MONTH) == today.get(Calendar.MONTH) && petDate.get(Calendar.DATE) > today.get(Calendar.DATE))) {
+            diff--;
+        }
+        return diff;
+    }
+
 }
