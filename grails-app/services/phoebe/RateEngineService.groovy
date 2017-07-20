@@ -13,9 +13,14 @@ class RateEngineService {
         def coInsuranceFactor = 1
         def speciesFactor = determineSpeciesFactor(petData.petSpecies)
         def ageFactor = determineAgeFactor(petData.age, petData.petSpecies)
-        def breedFactor = 1
+        def breedFactor = determineBreedFactor(petData.petBreedId)
 
         return baseRate * deductibleFactor * coInsuranceFactor * speciesFactor * ageFactor * breedFactor
+    }
+
+    def determineBreedFactor(String petBreed) {
+        def breedFactor = [A: 1.00, B: 1.15, C: 1.37, D: 1.80, X1: 0.98, X2: 1.12, A2: 1.00, B2: 1.10]
+        breedFactor[petBreed]
     }
 
     def determineSpeciesFactor(PetSpecies petSpecies) {
