@@ -1,21 +1,28 @@
 package phoebe
 
 import grails.transaction.Transactional
-import petquote.PetQuoteRequestData
+import petquote.PetQuoteCartRequest
 import petquote.PetSpecies
 
 @Transactional
 class RateEngineService {
 
-    def ratePet(PetQuoteRequestData petData) {
+    def ratePet(PetQuoteCartRequest petData, String zipCode) {
         def baseRate = 873
-        def deductibleFactor = 1
-        def coInsuranceFactor = 1
+        def deductibleFactor = 0.85 // Assume $250
+        def coInsuranceFactor = 1 // Assume 90%
         def speciesFactor = determineSpeciesFactor(petData.petSpecies)
         def ageFactor = determineAgeFactor(petData.age, petData.petSpecies)
         def breedFactor = determineBreedFactor(petData.petBreedId)
+        def stateFactor = determineStateFactor(zipCode)
 
-        return baseRate * deductibleFactor * coInsuranceFactor * speciesFactor * ageFactor * breedFactor
+        return baseRate * deductibleFactor * coInsuranceFactor * speciesFactor * ageFactor * breedFactor * stateFactor
+    }
+
+    def determineStateFactor(String zipCode) {
+        def stateFactor = [ALABAMA: 0.80, ALASKA: 0.75, ARIZONA: 0.90, ARKANSAS: 0.80, CALIFORNIA: 0.95, COLORADO: 0.95, CONNECTICUT: 1.15, DELAWARE: 1.00, 'DISTRICT OF COLUMBIA': 1.20, FLORIDA: 1.00, GEORGIA: 0.90, HAWAII: 1.00, IDAHO: 0.85, ILLINOIS: 1.10, INDIANA: 0.85, IOWA: 0.95, KANSAS: 0.75, KENTUCKY: 0.85, LOUISIANA: 0.95, MAINE: 1.00, MARYLAND: 1.05, MASSACHUSETTS: 1.10, MICHIGAN: 0.90, MINNESOTA: 1.00, MISSISSIPPI: 0.80, MISSOURI: 0.75, MONTANA: 0.95, NEBRASKA: 0.85, NEVADA: 0.80, 'NEW HAMPSHIRE': 1.00, 'NEW JERSEY': 1.10, 'NEW MEXICO': 0.80, 'NEW YORK': 1.15, 'NORTH CAROLINA': 1.05, 'NORTH DAKOTA': 0.95, OHIO: 0.95, OKLAHOMA: 0.80, OREGON: 1.05, PENNSYLVANIA: 1.00, 'RHODE ISLAND': 0.95, 'SOUTH CAROLINA': 0.95, 'SOUTH DAKOTA': 0.90, TENNESSEE: 0.95, TEXAS: 0.95, UTAH: 0.80, VERMONT: 1.05, VIRGINIA: 1.05, WASHINGTON: 0.90, 'WEST VIRGINIA': 0.85, WISCONSIN: 1.05, WYOMING: 0.85]
+        def state = StateLookupService.getStateFromZipCode(zipCode)
+        stateFactor[state]
     }
 
     def determineBreedFactor(String petBreed) {
