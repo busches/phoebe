@@ -1,18 +1,16 @@
 package phoebe
 
 import grails.converters.JSON
-import petquote.PetQuoteCartData
-import petquote.PetQuoteCartRequest
-import petquote.PetQuoteData
-import petquote.PetQuoteResponse
-import petquote.ProcessResult
-import petquote.ProductCode
+import petquote.*
 
 class PetQuoteController {
 
     RateEngineService rateEngineService
 
     def quotecarts(PetQuoteCartRequest petQuoteCartRequest) {
+
+        println petQuoteCartRequest.validate()
+        println petQuoteCartRequest.getErrors()
 
         PetQuoteCartData quoteCartData = new PetQuoteCartData()
         quoteCartData.quoteCartId = UUID.randomUUID()
@@ -26,8 +24,12 @@ class PetQuoteController {
             quoteData.quoteId = UUID.randomUUID()
             quoteData.productCode = ProductCode.POIA25090
             quoteData.petName = it.petQuoteRequest.petName
+            quoteData.quoteRelatedMessage = ""
+            quoteData.fees = []
 
-            Float rate = rateEngineService.ratePet(it, petQuoteCartRequest.leadZipcode)
+            Float rate = rateEngineService.ratePet(it.petQuoteRequest, petQuoteCartRequest.leadZipcode)
+            quoteData.annualAmount = rate
+            quoteData.monthlyAmount = rate / 12
 
             quoteCartData.quotes << quoteData
         }
@@ -36,7 +38,7 @@ class PetQuoteController {
         PetQuoteResponse petQuoteResponse = new PetQuoteResponse()
         petQuoteResponse.data = quoteCartData
 
-        println(petQuoteCartRequest as JSON)
+        // println(petQuoteCartRequest as JSON)
 
         render petQuoteResponse as JSON
     }
