@@ -7,7 +7,7 @@ import petquote.PetSpecies
 @Transactional
 class RateEngineService {
 
-    def ratePet(PetQuoteCartRequest petData, String zipCode) {
+    Float ratePet(PetQuoteCartRequest petData, String zipCode) {
         def baseRate = 873
         def deductibleFactor = 0.85 // Assume $250
         def coInsuranceFactor = 1 // Assume 90%
