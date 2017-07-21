@@ -1,9 +1,11 @@
 package petquote
 
+import grails.validation.Validateable
+
 import javax.validation.constraints.NotNull
 import javax.validation.constraints.Size
 
-class PetQuoteCartRequest {
+class PetQuoteCartRequest implements Validateable{
     // pattern: "[a-zA-Z0-9\\s]{1,60}"
     @NotNull
     @Size(min = 1, max = 60)
